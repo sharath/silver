@@ -12,29 +12,27 @@ db = PyMongo(app).db.silver
 
 @app.route('/register', methods=['POST'])
 def register():
-    data = request.form
     data = request.json
     print(data)
     user = {'first_name': data['first_name'], 'last_name': data['last_name'], 'username': data['username'],
             'password': data['password'], 'email_address': data['email_address']}
 
-    if db.users.find({'username': user['password']}).count() != 0:
-        return REGISTER_ERROR('USER_TAKEN')
+    if db.users.find({'username': user['username']}).count() != 0:
+        return REGISTER_ERROR_USER()
 
     if len(user['password']) < 6:
-        return REGISTER_ERROR('SHORT_PASSWORD')
+        return REGISTER_ERROR_PASSWORD()
 
     verification = user['email_address'].split('@')
     if len(verification) < 2:
-        return REGISTER_ERROR('INVALID_EMAIL'), 401
+        return REGISTER_ERROR_EMAIL()
     if len(verification[-1].split('.')) < 2:
-        return REGISTER_ERROR('INVALID_EMAIL'), 402
+        return REGISTER_ERROR_EMAIL()
+    if db.users.find({'email_address': user['email_address']}).count() != 0:
+        return REGISTER_ERROR_EMAIL()
 
-    #if db.users.find({'email_address': user['email_address']}).count() != 0:
-    #    return REGISTER_ERROR('EMAIL_USED'), 403
-
-    #user['password'] = bcrypt.hashpw(user['password'], bcrypt.gensalt())
-    #user_id = db.users.insert_one(user)
+    # user['password'] = bcrypt.hashpw(user['password'], bcrypt.gensalt())
+    # user_id = db.users.insert_one(user)
     user_id = 'abcde'
     token_entry = {'id': user_id, 'token': ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))}
 

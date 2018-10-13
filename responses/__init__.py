@@ -5,8 +5,16 @@ def ROOT_STATUS(server, database):
     return jsonify({'server': server, 'database': database})
 
 
-def REGISTER_ERROR(message):
-    return jsonify({'message': message})
+def REGISTER_ERROR_USER():
+    return jsonify({'message': 'USER_TAKEN'}), 409
+
+
+def REGISTER_ERROR_PASSWORD():
+    return jsonify({'message': 'PASSWORD_TOO_SHORT'}), 409
+
+
+def REGISTER_ERROR_EMAIL():
+    return jsonify({'message': 'INVALID_EMAIL'}), 409
 
 
 def REGISTER_SUCCESS(id, token):
