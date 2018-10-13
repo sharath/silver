@@ -37,7 +37,4 @@ def register():
 
 @app.route('/')
 def status():
-    ping = db.command('ping')
-    if 'ok' in ping:
-        return ROOT_STATUS('running', f'{ping["ok"]}ms')
-    return ROOT_STATUS('running', 'inoperational')
+    return ROOT_STATUS('running', 'running')
