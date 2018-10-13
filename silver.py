@@ -61,7 +61,7 @@ def login():
 
 @app.route('/events', methods=['GET'])
 def events():
-    return jsonify([[{'event_id': random.randint(), 'user_id': ['abcd', 'eeffg', 'jkdaj'],
+    return jsonify([[{'event_id': random.randint(0, 1000), 'user_id': ['abcd', 'eeffg', 'jkdaj'],
                       'user_first_name': ['John', 'Alice', 'Bob'],
                       'movie_id': '12312',
                       'movie_name': 'The Avengers',
