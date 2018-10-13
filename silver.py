@@ -4,6 +4,7 @@ from flask_pymongo import PyMongo
 import bcrypt
 from responses import *
 import random
+import time
 import string
 
 app = Flask(__name__)
@@ -43,7 +44,7 @@ def register():
 
 
 @app.route('/login', methods=['GET'])
-def get():
+def login():
     data = request.form
     username = data['username']
     password = data['password']
@@ -56,6 +57,15 @@ def get():
         db.tokens.update({'id': user['_id']}, token_entry)
         return LOGIN_SUCCESS(**token_entry)
     LOGIN_ERROR()
+
+
+@app.route('/events', methods=['GET'])
+def events():
+    return jsonify([[{'user_id': ['abcd', 'eeffg', 'jkdaj'],
+                      'user_first_name': ['John', 'Alice', 'Bob'],
+                      'movie_id': '12312',
+                      'movie_name': 'The Avengers',
+                      'date': str(int(time.time()))}] * 15])
 
 
 @app.route('/')
