@@ -53,6 +53,7 @@ def get():
                        'token': ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))}
         db.tokens.update({'id': user['_id']}, token_entry)
         return LOGIN_SUCCESS(**token_entry)
+    LOGIN_ERROR()
 
 
 @app.route('/')
