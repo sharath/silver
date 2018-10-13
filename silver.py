@@ -6,13 +6,17 @@ from responses import *
 import random
 import time
 import string
+from cors import crossdomain
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/silver"
 db = PyMongo(app).db
 
 
+
+
 @app.route('/register', methods=['POST'])
+@crossdomain(origin='*')
 def register():
     data = request.json
     user = {'first_name': data['first_name'], 'last_name': data['last_name'], 'username': data['username'],
@@ -42,6 +46,7 @@ def register():
 
 
 @app.route('/login', methods=['GET'])
+@crossdomain(origin='*')
 def login():
     data = request.json
     username = data['username']
@@ -58,6 +63,7 @@ def login():
 
 
 @app.route('/events', methods=['GET'])
+@crossdomain(origin='*')
 def events():
     return jsonify([{'event_id': random.randint(0, 1000), 'user_id': ['abcd', 'eeffg', 'jkdaj'],
                      'user_first_name': ['John', 'Alice', 'Bob'],
@@ -67,6 +73,7 @@ def events():
 
 
 @app.route('/friend/add/<id>', methods=['POST'])
+@crossdomain(origin='*')
 def add_friend(id):
     data = request.json
 
@@ -78,5 +85,6 @@ def add_friend(id):
 
 
 @app.route('/')
+@crossdomain(origin='*')
 def status():
     return ROOT_STATUS('running', 'running')
