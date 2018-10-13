@@ -6,7 +6,7 @@ def ROOT_STATUS(server, database):
 
 
 def REGISTER_ERROR(message):
-    return jsonify({'message': message}), 400
+    return jsonify({'message': message})
 
 
 def REGISTER_SUCCESS(id, token):

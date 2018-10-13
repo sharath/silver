@@ -13,6 +13,8 @@ db = PyMongo(app).db.silver
 @app.route('/register', methods=['POST'])
 def register():
     data = request.form
+    data = request.json
+    print(data)
     user = {'first_name': data['first_name'], 'last_name': data['last_name'], 'username': data['username'],
             'password': data['password'], 'email_address': data['email_address']}
 
@@ -24,18 +26,19 @@ def register():
 
     verification = user['email_address'].split('@')
     if len(verification) < 2:
-        return REGISTER_ERROR('INVALID_EMAIL')
+        return REGISTER_ERROR('INVALID_EMAIL'), 401
     if len(verification[-1].split('.')) < 2:
-        return REGISTER_ERROR('INVALID_EMAIL')
+        return REGISTER_ERROR('INVALID_EMAIL'), 402
 
-    if db.users.find({'email_address': user['email_address']}).count() != 0:
-        return REGISTER_ERROR('EMAIL_USED')
+    #if db.users.find({'email_address': user['email_address']}).count() != 0:
+    #    return REGISTER_ERROR('EMAIL_USED'), 403
 
-    user['password'] = bcrypt.hashpw(user['password'], bcrypt.gensalt())
-    user_id = db.users.insert_one(user)
+    #user['password'] = bcrypt.hashpw(user['password'], bcrypt.gensalt())
+    #user_id = db.users.insert_one(user)
+    user_id = 'abcde'
     token_entry = {'id': user_id, 'token': ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))}
 
-    db.tokens.update({'id': user_id}, token_entry)
+    # db.tokens.update({'id': user_id}, token_entry)
     return REGISTER_SUCCESS(**token_entry)
 
 
