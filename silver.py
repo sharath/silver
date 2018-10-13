@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import jsonify, request
 from flask_pymongo import PyMongo
-from flask.ext.bcrypt import Bcrypt
+from bcrypt
 from responses import *
 import random, string
 
@@ -32,7 +32,7 @@ def register():
     if db.users.find({'email_address': user['email_address']}).count() != 0:
         return REGISTER_ERROR('EMAIL_USED')
 
-    user['password'] = Bcrypt.generate_password_hash(user['password'], 8)
+    user['password'] = bcrypt.hashpw(user['password'], bcrypt.gensalt())
     user_id = db.users.insert_one(user)
     token_entry = {'id': user_id, 'token': ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))}
 
@@ -48,7 +48,7 @@ def get():
 
     user = db.users.find({'username': username})
 
-    if bcrypt.check_password_hash(user['password'], password):
+    if bcrypt.checkpw(password, user['password']):
         token_entry = {'id': user['_id'],
                        'token': ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))}
         db.tokens.update({'id': user['_id']}, token_entry)
