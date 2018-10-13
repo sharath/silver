@@ -1,13 +1,15 @@
 from flask import Flask
 from flask import jsonify, request
 from flask_pymongo import PyMongo
-import bcrypt
+from flask.ext.bcrypt import Bcrypt
 from responses import *
-import random, string
+import random
+import string
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/silver"
 db = PyMongo(app).db
+bcrypt = Bcrypt(app)
 
 
 @app.route('/register', methods=['POST'])
@@ -32,7 +34,7 @@ def register():
         print('error')
         return REGISTER_ERROR_EMAIL()
 
-    user['password'] = bcrypt.hashpw(user['password'], bcrypt.gensalt())
+    user['password'] = bcrypt.generate_password_hash(user['password'], 8)
     # user_id = db.users.insert_one(user)
     user_id = 'abcde'
     token_entry = {'id': user_id, 'token': ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))}
