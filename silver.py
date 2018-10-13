@@ -29,9 +29,10 @@ def register():
     if len(verification[-1].split('.')) < 2:
         return REGISTER_ERROR_EMAIL()
     if db.users.find({'email_address': user['email_address']}).count() != 0:
+        print('error')
         return REGISTER_ERROR_EMAIL()
 
-    # user['password'] = bcrypt.hashpw(user['password'], bcrypt.gensalt())
+    user['password'] = bcrypt.hashpw(user['password'], bcrypt.gensalt())
     # user_id = db.users.insert_one(user)
     user_id = 'abcde'
     token_entry = {'id': user_id, 'token': ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))}
