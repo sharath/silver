@@ -11,3 +11,11 @@ def REGISTER_ERROR(message):
 
 def REGISTER_SUCCESS(id, token):
     return jsonify({'id': id, 'token': token})
+
+
+def LOGIN_SUCCESS(id, token):
+    return jsonify({'id': id, 'token': token})
+
+
+def LOGIN_ERROR():
+    return jsonify({'message': "INVALID_CREDENTIALS"}), 400
