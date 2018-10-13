@@ -1,14 +1,13 @@
 from flask import Flask
 from flask import jsonify, request
 from flask_pymongo import PyMongo
-from bcrypt
+import bcrypt
 from responses import *
 import random, string
 
 app = Flask(__name__)
 app.config["MONGO_URI"] = "mongodb://localhost:27017/silver"
 db = PyMongo(app).db.silver
-bcrypt = Bcrypt(app)
 
 
 @app.route('/register', methods=['POST'])
