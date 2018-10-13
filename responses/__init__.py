@@ -27,3 +27,7 @@ def LOGIN_SUCCESS(id, token):
 
 def LOGIN_ERROR():
     return jsonify({'message': "INVALID_CREDENTIALS"}), 400
+
+
+def TOKEN_ERROR():
+    return jsonify({'message': "TOKEN_INVALID"}), 400
